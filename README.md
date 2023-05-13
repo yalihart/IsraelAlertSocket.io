@@ -13,6 +13,7 @@ This is a Socket.io server that sends alerts for Israel's national צבע אדו
 You can host this on your own or you can use my live version at `wss://alerts.yalihart.com`.
 
 ### Hosting the Server
+*The api is only accessible within Israel.
 
 1. Install Node.js and npm on your system if you haven't already.
 
