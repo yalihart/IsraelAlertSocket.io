@@ -4,16 +4,10 @@ const NodeCache = require("node-cache");
 // Importing Constants
 const cities = require("../constants/cities")["cities"]
 
-// Constants & Assets should be used on the client side, but if you need them here, you can import them like this:
-// const arEvents = require("../constants/ar/arEvents")
-// const heEvents = require("../constants/he/heEvents")
-// const enEvents = require("../constants/en/enEvents")
-// const ruEvents = require("../constants/ru/ruEvents")
-// const polygons = require("../constants/polygons")
 
-// Web Socket Setup
-const WebSocket = require('ws');
-const wss = new WebSocket.Server({port: 8080});
+// Socket.io Setup
+const {Server} = require("socket.io");
+const io = new Server(8080, { /* options */});
 const clients = [];
 
 // Cache
@@ -76,10 +70,10 @@ async function getAlerts() {
     });
 }
 
-wss.on('connection', (ws) => {
-    console.log(`Client connected. ${wss.clients.size} connected clients.`);
-    clients.push(ws);
-    ws.on('close', () => clients.splice(clients.indexOf(ws), 1));
+io.on('connection', (socket) => {
+    clients.push(socket);
+    console.log(`Client connected. ${clients.length} connected clients.`);
+    socket.on('disconnect', () => clients.splice(clients.indexOf(socket), 1));
 });
 
 setInterval(async () => {
@@ -91,7 +85,7 @@ setInterval(async () => {
                     if (!cache.has(city)) {
                         const alert = await createAlert(city, parseInt(alerts.cat))
                         console.log(alert)
-                        wss.broadcast(JSON.stringify(alert)) // Client side will need to parse the JSON
+                        if (clients.size > 0) io.sockets.emit('alert', alert)
                         cacheCity(city)
                         prevId = alerts.id
                     }
@@ -102,12 +96,6 @@ setInterval(async () => {
         console.log(error);
     }
 }, 2500);
-
-wss.broadcast = function broadcast(msg) {
-    wss.clients.forEach(function each(client) {
-        client.send(msg);
-    });
-};
 
 async function createAlert(city, cat) {
     const locData = await getLocationInfo(city)
