@@ -121,6 +121,7 @@ async function createAlert(city, cat) {
 
     const alert = {
         type: "ALERT",
+        timestamp: Date.now(),
         cat: cat,
         location: {
             id: locData.id,
