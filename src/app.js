@@ -101,15 +101,7 @@ setInterval(async () => {
 
 async function createAlert(city, cat) {
     const locData = await getLocationInfo(city)
-    // Used to get constants data (for client ref)
-    // const arEvent = await arEvents[arEvents.findIndex((event) => event.category === cat)]
-    // const heEvent = await heEvents[heEvents.findIndex((event) => event.category === cat)]
-    // const enEvent = await enEvents[enEvents.findIndex((event) => event.category === cat)]
-    // const ruEvent = await ruEvents[ruEvents.findIndex((event) => event.category === cat)]
-    // const polygon = await polygons[(locData.id).toString()]
-
-
-    const alert = {
+    return {
         type: "ALERT",
         timestamp: Date.now(),
         cat: cat,
@@ -120,8 +112,7 @@ async function createAlert(city, cat) {
             lng: locData.lng
         }
 
-    }
-    return alert;
+    };
 }
 
 async function getLocationInfo(loc) {
