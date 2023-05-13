@@ -3,11 +3,12 @@ const NodeCache = require("node-cache");
 
 // Importing Constants
 const cities = require("../constants/cities")["cities"]
-
+const port = 8080;
 
 // Socket.io Setup
 const {Server} = require("socket.io");
-const io = new Server(8080, { /* options */});
+const io = new Server(port, { /* options */});
+console.log("Socket.io server listening on port " + port);
 const clients = [];
 
 // Cache
