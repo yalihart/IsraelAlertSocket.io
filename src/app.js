@@ -79,15 +79,17 @@ io.on('connection', (socket) => {
 setInterval(async () => {
     try {
         const alerts = await getAlerts();
-        if (alerts) {
-            if (alerts.id !== prevId) {
-                for (const city of (alerts.data)) {
-                    if (!cache.has(city)) {
-                        const alert = await createAlert(city, parseInt(alerts.cat))
-                        console.log(alert)
-                        if (clients.size > 0) io.sockets.emit('alert', alert)
-                        cacheCity(city)
-                        prevId = alerts.id
+        if (clients.length > 0) {
+            if (alerts) {
+                if (alerts.id !== prevId) {
+                    for (const city of (alerts.data)) {
+                        if (!cache.has(city)) {
+                            const alert = await createAlert(city, parseInt(alerts.cat))
+                            console.log(alert)
+                            io.sockets.emit('alert', alert)
+                            cacheCity(city)
+                            prevId = alerts.id
+                        }
                     }
                 }
             }
