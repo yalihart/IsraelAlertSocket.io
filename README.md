@@ -2,6 +2,10 @@
 
 This is a Socket.io server that sends alerts for Israel's national צבע אדום (red alert) system. The server uses axios to make HTTP requests to the official alert system's API, and then broadcasts any new alerts to connected clients using Socket.io.
 
+#### Please consider donating or contributing your ideas into this project. Hosting a server requires money and any support would be greatly appreciated. Thank you for your support! 
+<a href="https://www.buymeacoffee.com/a5HO0U3s6e" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a>
+
+
 **This project was created for educational purposes.**
 
 ## How to Use
